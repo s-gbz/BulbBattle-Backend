@@ -1,5 +1,6 @@
 package de.trzpiot.bulbbattle.service;
 
+import de.trzpiot.bulbbattle.controller.WebSocketController;
 import de.trzpiot.bulbbattle.exception.GameIsRunningException;
 import de.trzpiot.bulbbattle.exception.GameUnexpectedlyClosedException;
 import de.trzpiot.bulbbattle.exception.InvalidNumberOfRoundsException;
