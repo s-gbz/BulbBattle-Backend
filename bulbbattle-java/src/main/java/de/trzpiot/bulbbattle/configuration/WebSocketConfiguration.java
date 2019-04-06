@@ -19,6 +19,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app")
-                .enableSimpleBroker("/update-color-combination", "/update-game-state");
+                .enableSimpleBroker("/updatecolorcombination", "/updategamestate");
     }
 }
