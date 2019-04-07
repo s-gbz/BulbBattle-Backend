@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("game")
+@RequestMapping("/game")
 public class GameController {
     private final GameService gameService;
 
@@ -15,7 +15,7 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @PostMapping("start")
+    @PostMapping("/start")
     public void start(@RequestBody StartModel model) {
         gameService.start(model.getRounds());
     }
