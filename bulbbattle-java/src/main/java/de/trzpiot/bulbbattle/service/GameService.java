@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -36,17 +37,9 @@ public class GameService {
     private void run(int rounds) {
         String bridgeIp = environment.getProperty("bridge.ip");
         String bridgeUsername = environment.getProperty("bridge.username");
-        long lightId = Long.parseLong(environment.getProperty("bridge.light.id"));
+        long lightId = Long.parseLong(Objects.requireNonNull(environment.getProperty("bridge.light.id")));
         int currentRound = 1;
-        nativeService.gameStart(bridgeIp, bridgeUsername, lightId, 10000000L);
-
-        while (currentRound <= rounds) {
-            nativeService.roundStart(bridgeIp, bridgeUsername, lightId, getColorSequence(currentRound), getRoundDuration(currentRound));
-            nativeService.roundPause(bridgeIp, bridgeUsername, lightId, 12000000L);
-            currentRound++;
-        }
-
-        nativeService.gamePause(bridgeIp, bridgeUsername, lightId);
+        nativeService.switchOn(bridgeIp, bridgeUsername, lightId);
         running = false;
     }
 

@@ -8,8 +8,8 @@ public class NativeService {
         System.loadLibrary("bulbbattle");
     }
 
-    public native void roundPause(String bridgeIp, String bridgeUsername, long lightId, long duration);
-    public native void roundStart(String bridgeIp, String bridgeUsername, long lightId, int[] colorSequence, long duration);
-    public native void gamePause(String bridgeIp, String bridgeUsername, long lightId);
-    public native void gameStart(String bridgeIp, String bridgeUsername, long lightId, long duration);
+    public native void switchOn(String bridgeIp, String bridgeUsername, long lightId);
+    public native void switchOff(String bridgeIp, String bridgeUsername, long lightId);
+    public native void setColor(String bridgeIp, String bridgeUsername, long lightId, int r, int g, int b);
+    public native void setBrightness(String bridgeIp, String bridgeUsername, long lightId, int brightness);
 }

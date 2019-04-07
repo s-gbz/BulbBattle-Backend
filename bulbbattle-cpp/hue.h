@@ -9,35 +9,35 @@ extern "C" {
 #endif
 /*
  * Class:     de_trzpiot_bulbbattle_service_NativeService
- * Method:    roundPause
- * Signature: (Ljava/lang/String;Ljava/lang/String;JJ)V
- */
-JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundPause
-  (JNIEnv *, jobject, jstring, jstring, jlong, jlong);
-
-/*
- * Class:     de_trzpiot_bulbbattle_service_NativeService
- * Method:    roundStart
- * Signature: (Ljava/lang/String;Ljava/lang/String;J[IJ)V
- */
-JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundStart
-  (JNIEnv *, jobject, jstring, jstring, jlong, jintArray, jlong);
-
-/*
- * Class:     de_trzpiot_bulbbattle_service_NativeService
- * Method:    gamePause
- * Signature: (Ljava/lang/String;Ljava/lang/String;JJ)V
- */
-JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gamePause
-  (JNIEnv *, jobject, jstring, jstring, jlong, jlong);
-
-/*
- * Class:     de_trzpiot_bulbbattle_service_NativeService
- * Method:    gameStart
+ * Method:    switchOn
  * Signature: (Ljava/lang/String;Ljava/lang/String;J)V
  */
-JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gameStart
+JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_switchOn
   (JNIEnv *, jobject, jstring, jstring, jlong);
+
+/*
+ * Class:     de_trzpiot_bulbbattle_service_NativeService
+ * Method:    switchOff
+ * Signature: (Ljava/lang/String;Ljava/lang/String;J)V
+ */
+JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_switchOff
+  (JNIEnv *, jobject, jstring, jstring, jlong);
+
+/*
+ * Class:     de_trzpiot_bulbbattle_service_NativeService
+ * Method:    setColor
+ * Signature: (Ljava/lang/String;Ljava/lang/String;JIII)V
+ */
+JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_setColor
+  (JNIEnv *, jobject, jstring, jstring, jlong, jint, jint, jint);
+
+/*
+ * Class:     de_trzpiot_bulbbattle_service_NativeService
+ * Method:    setBrightness
+ * Signature: (Ljava/lang/String;Ljava/lang/String;JI)V
+ */
+JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_setBrightness
+  (JNIEnv *, jobject, jstring, jstring, jlong, jint);
 
 #ifdef __cplusplus
 }
