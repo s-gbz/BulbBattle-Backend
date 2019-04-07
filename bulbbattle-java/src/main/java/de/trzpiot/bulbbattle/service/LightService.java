@@ -3,7 +3,7 @@ package de.trzpiot.bulbbattle.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NativeService {
+public class LightService {
     static {
         System.loadLibrary("bulbbattle");
     }

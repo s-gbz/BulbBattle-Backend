@@ -12,13 +12,13 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class GameService {
     private final Environment environment;
-    private final NativeService nativeService;
+    private final LightService lightService;
     private boolean running = false;
 
     @Autowired
-    public GameService(Environment environment, NativeService nativeService) {
+    public GameService(Environment environment, LightService lightService) {
         this.environment = environment;
-        this.nativeService = nativeService;
+        this.lightService = lightService;
     }
 
     public void start(int rounds) {
@@ -35,12 +35,29 @@ public class GameService {
     }
 
     private void run(int rounds) {
-        String bridgeIp = environment.getProperty("bridge.ip");
-        String bridgeUsername = environment.getProperty("bridge.username");
-        long lightId = Long.parseLong(Objects.requireNonNull(environment.getProperty("bridge.light.id")));
-        int currentRound = 1;
-        nativeService.switchOn(bridgeIp, bridgeUsername, lightId);
-        running = false;
+        final String bridgeIp = environment.getProperty("bridge.ip");
+        final String bridgeUsername = environment.getProperty("bridge.username");
+        final long lightId = Long.parseLong(Objects.requireNonNull(environment.getProperty("bridge.light.id")));
+
+        Thread engine = new Thread(() -> {
+            int currentRound = 1;
+
+            for (; currentRound <= rounds; currentRound++) {
+                lightService.switchOn(bridgeIp, bridgeUsername, lightId);
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                lightService.switchOff(bridgeIp, bridgeUsername, lightId);
+            }
+
+            running = false;
+        });
+
+        engine.start();
     }
 
     private int[] getColorSequence(int currentRound) {
