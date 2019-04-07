@@ -38,15 +38,15 @@ public class GameService {
         String bridgeUsername = environment.getProperty("bridge.username");
         long lightId = Long.parseLong(environment.getProperty("bridge.light.id"));
         int currentRound = 1;
-        nativeService.gameStart(bridgeIp, bridgeUsername, lightId, 15000L);
+        nativeService.gameStart(bridgeIp, bridgeUsername, lightId, 10000000L);
 
         while (currentRound <= rounds) {
             nativeService.roundStart(bridgeIp, bridgeUsername, lightId, getColorSequence(currentRound), getRoundDuration(currentRound));
-            nativeService.roundPause(bridgeIp, bridgeUsername, lightId, 15000L);
+            nativeService.roundPause(bridgeIp, bridgeUsername, lightId, 12000000L);
             currentRound++;
         }
 
-        nativeService.gamePause(bridgeIp, bridgeUsername, lightId, 15000L);
+        nativeService.gamePause(bridgeIp, bridgeUsername, lightId);
         running = false;
     }
 
@@ -61,6 +61,6 @@ public class GameService {
     }
 
     private Long getRoundDuration(int currentRound) {
-        return 2000L - (currentRound - 1) * 100;
+        return 1500000L - (currentRound - 1) * 100000;
     }
 }
