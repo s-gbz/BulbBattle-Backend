@@ -10,34 +10,34 @@ extern "C" {
 /*
  * Class:     de_trzpiot_bulbbattle_service_NativeService
  * Method:    roundPause
- * Signature: (Ljava/lang/Long;)V
+ * Signature: (Ljava/lang/String;Ljava/lang/String;JJ)V
  */
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundPause
-  (JNIEnv *, jobject, jobject);
+  (JNIEnv *, jobject, jstring, jstring, jlong, jlong);
 
 /*
  * Class:     de_trzpiot_bulbbattle_service_NativeService
  * Method:    roundStart
- * Signature: (Ljava/lang/String;Ljava/lang/Long;)V
+ * Signature: (Ljava/lang/String;Ljava/lang/String;J[IJ)V
  */
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundStart
-  (JNIEnv *, jobject, jstring, jobject);
+  (JNIEnv *, jobject, jstring, jstring, jlong, jintArray, jlong);
 
 /*
  * Class:     de_trzpiot_bulbbattle_service_NativeService
  * Method:    gamePause
- * Signature: ()V
+ * Signature: (Ljava/lang/String;Ljava/lang/String;JJ)V
  */
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gamePause
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring, jstring, jlong, jlong);
 
 /*
  * Class:     de_trzpiot_bulbbattle_service_NativeService
  * Method:    gameStart
- * Signature: ()V
+ * Signature: (Ljava/lang/String;Ljava/lang/String;J)V
  */
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gameStart
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring, jstring, jlong);
 
 #ifdef __cplusplus
 }

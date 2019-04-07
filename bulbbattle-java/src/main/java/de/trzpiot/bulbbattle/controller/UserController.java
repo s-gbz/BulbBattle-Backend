@@ -24,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable Long id) {
         Optional<User> user = userService.get(id);
 
