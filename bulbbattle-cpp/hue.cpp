@@ -40,7 +40,7 @@ JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundSta
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gamePause
-  (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId)
+  (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId, jlong duration)
 {
   const char* pIp = env->GetStringUTFChars(ip, NULL);
   const char* pUsername = env->GetStringUTFChars(username, NULL);
@@ -48,6 +48,7 @@ JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gamePaus
   Hue bridge(pIp, pUsername, handler);
   HueLight light = bridge.getLight(lightId);
   light.Off();
+  usleep(duration);
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gameStart

@@ -38,7 +38,7 @@ public class GameService {
         String bridgeUsername = environment.getProperty("bridge.username");
         long lightId = Long.parseLong(environment.getProperty("bridge.light.id"));
         int currentRound = 1;
-        nativeService.gameStart(bridgeIp, bridgeUsername, lightId);
+        nativeService.gameStart(bridgeIp, bridgeUsername, lightId, 15000L);
 
         while (currentRound <= rounds) {
             nativeService.roundStart(bridgeIp, bridgeUsername, lightId, getColorSequence(currentRound), getRoundDuration(currentRound));
