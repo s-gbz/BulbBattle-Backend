@@ -3,19 +3,19 @@ package de.trzpiot.bulbbattle.controller;
 import de.trzpiot.bulbbattle.exception.RegistrationException;
 import de.trzpiot.bulbbattle.exception.UserNotFoundException;
 import de.trzpiot.bulbbattle.model.UserModel;
-import de.trzpiot.bulbbattle.service.NativeService;
 import de.trzpiot.bulbbattle.domain.User;
 import de.trzpiot.bulbbattle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -24,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{/id}")
     public ResponseEntity<User> get(@PathVariable Long id) {
         Optional<User> user = userService.get(id);
 
@@ -43,5 +43,11 @@ public class UserController {
         }
 
         return new ResponseEntity<>(userService.register(model.getName()), HttpStatus.CREATED);
+    }
+
+    @CrossOrigin("http://localhost:4200")
+    @PostMapping("/highscore")
+    public List<User> returnHighScore() {
+        return userService.getAll();
     }
 }

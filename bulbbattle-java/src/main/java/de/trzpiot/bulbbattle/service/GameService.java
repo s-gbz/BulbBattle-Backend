@@ -11,13 +11,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class GameService {
     private final WebSocketController socketController;
-    private final NativeService nativeService;
     private boolean running = false;
 
     @Autowired
-    public GameService(WebSocketController socketController, NativeService nativeService) {
+    public GameService(WebSocketController socketController) {
         this.socketController = socketController;
-        this.nativeService = nativeService;
     }
 
     public void start(int rounds) {
