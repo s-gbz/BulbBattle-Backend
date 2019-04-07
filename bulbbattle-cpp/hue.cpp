@@ -38,5 +38,5 @@ JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_setBrigh
   (JNIEnv *env, jobject thisObject, jstring bridgeIp, jstring bridgeUsername, jlong lightId, jint brightness)
 {
   HueLight light = get(env, bridgeIp, bridgeUsername, lightId);
-  light.setBrightness(brightness)
+  light.setBrightness(brightness);
 }
