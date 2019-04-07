@@ -5,6 +5,13 @@
 #include <iostream>
 #include <unistd.h>
 
+HueLight get(JNIEnv *env, jstring bridgeIp, jstring bridgeUsername, jlong lightId) {
+  const char* pIp = env->GetStringUTFChars(bridgeIp, NULL);
+  const char* pUsername = env->GetStringUTFChars(bridgeUsername, NULL);  
+  auto handler = std::make_shared<LinHttpHandler>();
+  Hue bridge(pIp, pUsername, handler);
+  return bridge.getLight(lightId);
+}
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_switchOn
   (JNIEnv *env, jobject thisObject, jstring bridgeIp, jstring bridgeUsername, jlong lightId)
@@ -32,12 +39,4 @@ JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_setBrigh
 {
   HueLight light = get(bridgeIp, bridgeUsername, lightId);
   light.setBrightness(brightness)
-}
-
-HueLight get(jstring bridgeIp, jstring bridgeUsername, jlong lightId) {
-  const char* pIp = env->GetStringUTFChars(ip, NULL);
-  const char* pUsername = env->GetStringUTFChars(username, NULL);  
-  auto handler = std::make_shared<LinHttpHandler>();
-  Hue bridge(pIp, pUsername, handler);
-  return bridge.getLight(lightId);
 }
