@@ -16,27 +16,27 @@ HueLight get(JNIEnv *env, jstring bridgeIp, jstring bridgeUsername, jlong lightI
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_switchOn
   (JNIEnv *env, jobject thisObject, jstring bridgeIp, jstring bridgeUsername, jlong lightId)
 {
-  HueLight light = get(bridgeIp, bridgeUsername, lightId);
+  HueLight light = get(env, bridgeIp, bridgeUsername, lightId);
   light.On();
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_switchOff
   (JNIEnv *env, jobject thisObject, jstring bridgeIp, jstring bridgeUsername, jlong lightId)
 {
-  HueLight light = get(bridgeIp, bridgeUsername, lightId);
+  HueLight light = get(env, bridgeIp, bridgeUsername, lightId);
   light.Off();
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_setColor
   (JNIEnv *env, jobject thisObject, jstring bridgeIp, jstring bridgeUsername, jlong lightId, jint r, jint g, jint b)
 {
-  HueLight light = get(bridgeIp, bridgeUsername, lightId);
+  HueLight light = get(env, bridgeIp, bridgeUsername, lightId);
   light.setColorRGB(r, g, b);
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_setBrightness
   (JNIEnv *env, jobject thisObject, jstring bridgeIp, jstring bridgeUsername, jlong lightId, jint brightness)
 {
-  HueLight light = get(bridgeIp, bridgeUsername, lightId);
+  HueLight light = get(env, bridgeIp, bridgeUsername, lightId);
   light.setBrightness(brightness)
 }
