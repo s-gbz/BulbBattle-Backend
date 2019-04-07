@@ -9,11 +9,10 @@ struct Color {
 	long r, g, b;
 };
 
-// 0: RED
-// 1: GREEN
-// 2: BLUE
-// 3: YELLOW
-Color colors[4] = {{ 244, 67, 54 }, { 76, 175, 80 }, { 33, 150, 243 }, { 255, 235, 59 }};
+Color red = { 244, 67, 54 };
+Color green = { 76, 175, 80 };
+Color blue = { 33, 150, 243 };
+Color yellow = { 255, 235, 59 };
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundPause
   (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId, jlong duration)
@@ -35,16 +34,27 @@ JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundSta
   auto handler = std::make_shared<LinHttpHandler>();
   Hue bridge(pIp, pUsername, handler);
   HueLight light = bridge.getLight(lightId);
-  light.setColorRGB(colors[0].r, colors[0].g, colors[0].b);
 
   int i = 0;
-  jsize len = (*env)->GetArrayLength(env, colorSequence);
-  jint *body = (*env)->GetIntArrayElements(env, colorSequence, 0);
+  jsize len = env->GetArrayLength(colorSequence);
+  jint *body = env->GetIntArrayElements(colorSequence, 0);
+
   for (i=0; i<len; i++) {
-      light.setColorRGB(colors[body[i]].r, colors[body[i]].g, colors[body[i]].b);
-      usleep(duration);
-      light.setColorRGB(0, 0, 0);
-      usleep(duration);
+    light.On();
+
+    if(body[i] == 0) {
+      light.setColorRGB(red.r, red.g, red.b);
+    } else if(body[i] == 1) {
+      light.setColorRGB(green.r, green.g, green.b);
+    } else if(body[i] == 2) {
+      light.setColorRGB(blue.r, blue.g, blue.b);
+    } else if(body[i] == 3) {
+      light.setColorRGB(yellow.r, yellow.g, yellow.b);
+    }
+
+    usleep(duration);
+    light.Off();
+    usleep(duration);
   }
 }
 
