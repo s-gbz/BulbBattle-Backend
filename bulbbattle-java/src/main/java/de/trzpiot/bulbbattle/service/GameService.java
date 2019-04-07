@@ -4,7 +4,6 @@ import de.trzpiot.bulbbattle.exception.GameIsRunningException;
 import de.trzpiot.bulbbattle.exception.InvalidNumberOfRoundsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,14 +11,12 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class GameService {
     private final Environment environment;
-    private final SimpMessagingTemplate messagingTemplate;
     private final NativeService nativeService;
     private boolean running = false;
 
     @Autowired
-    public GameService(Environment environment, SimpMessagingTemplate messagingTemplate, NativeService nativeService) {
+    public GameService(Environment environment, NativeService nativeService) {
         this.environment = environment;
-        this.messagingTemplate = messagingTemplate;
         this.nativeService = nativeService;
     }
 
@@ -65,13 +62,5 @@ public class GameService {
 
     private Long getRoundDuration(int currentRound) {
         return 2000L - (currentRound - 1) * 100;
-    }
-
-    private void sendColorCombinationToClient(int[] colorCombination) {
-        messagingTemplate.convertAndSend("/update-color-combination", colorCombination);
-    }
-
-    private void sendGameStateToClient(boolean gameState) {
-        messagingTemplate.convertAndSend("/update-game-state", gameState);
     }
 }
