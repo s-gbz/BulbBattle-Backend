@@ -38,26 +38,21 @@ public class GameService {
         final String bridgeIp = environment.getProperty("bridge.ip");
         final String bridgeUsername = environment.getProperty("bridge.username");
         final long lightId = Long.parseLong(Objects.requireNonNull(environment.getProperty("bridge.light.id")));
+        int currentRound = 1;
 
-        Thread engine = new Thread(() -> {
-            int currentRound = 1;
+        for (; currentRound <= rounds; currentRound++) {
+            lightService.switchOn(bridgeIp, bridgeUsername, lightId);
 
-            for (; currentRound <= rounds; currentRound++) {
-                lightService.switchOn(bridgeIp, bridgeUsername, lightId);
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                lightService.switchOff(bridgeIp, bridgeUsername, lightId);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            running = false;
-        });
+            lightService.switchOff(bridgeIp, bridgeUsername, lightId);
+        }
 
-        engine.start();
+        running = false;
     }
 
     private int[] getColorSequence(int currentRound) {
