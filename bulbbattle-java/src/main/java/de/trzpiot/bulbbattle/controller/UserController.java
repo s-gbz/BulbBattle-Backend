@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -41,5 +43,11 @@ public class UserController {
         }
 
         return new ResponseEntity<>(userService.register(model.getName()), HttpStatus.CREATED);
+    }
+
+    @CrossOrigin("http://localhost:4200")
+    @PostMapping("/highscore")
+    public List<User> returnHighScore() {
+        return userService.getAll();
     }
 }
