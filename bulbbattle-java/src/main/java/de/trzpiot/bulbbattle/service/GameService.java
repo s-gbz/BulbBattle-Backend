@@ -3,6 +3,7 @@ package de.trzpiot.bulbbattle.service;
 import de.trzpiot.bulbbattle.exception.GameIsRunningException;
 import de.trzpiot.bulbbattle.exception.InvalidNumberOfRoundsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class GameService {
+    private final Environment environment;
     private final SimpMessagingTemplate messagingTemplate;
     private final NativeService nativeService;
     private boolean running = false;
 
     @Autowired
-    public GameService(SimpMessagingTemplate messagingTemplate, NativeService nativeService) {
+    public GameService(Environment environment, SimpMessagingTemplate messagingTemplate, NativeService nativeService) {
+        this.environment = environment;
         this.messagingTemplate = messagingTemplate;
         this.nativeService = nativeService;
     }
@@ -34,22 +37,20 @@ public class GameService {
     }
 
     private void run(int rounds) {
+        String bridgeIp = environment.getProperty("bridge.ip");
+        String bridgeUsername = environment.getProperty("bridge.username");
+        long lightId = Long.parseLong(environment.getProperty("bridge.light.id"));
         int currentRound = 1;
-        sendColorCombinationToClient(getColorSequence(currentRound));
-
-        /*
-        nativeService.gameStart();
+        nativeService.gameStart(bridgeIp, bridgeUsername, lightId);
 
         while (currentRound <= rounds) {
-            nativeService.roundStart(getColorSequence(currentRound),
-                    getRoundDuration(currentRound));
-            nativeService.roundPause(5000L);
+            nativeService.roundStart(bridgeIp, bridgeUsername, lightId, getColorSequence(currentRound), getRoundDuration(currentRound));
+            nativeService.roundPause(bridgeIp, bridgeUsername, lightId, 15000L);
             currentRound++;
         }
 
-        nativeService.gamePause();
+        nativeService.gamePause(bridgeIp, bridgeUsername, lightId, 15000L);
         running = false;
-        */
     }
 
     private int[] getColorSequence(int currentRound) {
@@ -62,7 +63,7 @@ public class GameService {
         return colorSequence;
     }
 
-    private Long getRoundDuration(Long currentRound) {
+    private Long getRoundDuration(int currentRound) {
         return 2000L - (currentRound - 1) * 100;
     }
 

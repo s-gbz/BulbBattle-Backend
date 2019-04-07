@@ -9,31 +9,56 @@ struct Color {
 	long r, g, b;
 };
 
-Color red = { 244, 67, 54 };
-Color green = { 76, 175, 80 };
-Color blue = { 33, 150, 243 };
-Color yellow = { 255, 235, 59 };
+// 0: RED
+// 1: GREEN
+// 2: BLUE
+// 3: YELLOW
+Color colors[4] = {{ 244, 67, 54 }, { 76, 175, 80 }, { 33, 150, 243 }, { 255, 235, 59 }};
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundPause
-  (JNIEnv *, jobject thisObject, jobject duration)
+  (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId, jlong duration)
 {
-
+  const char* pIp = env->GetStringUTFChars(ip, NULL);
+  const char* pUsername = env->GetStringUTFChars(username, NULL);
+  auto handler = std::make_shared<LinHttpHandler>();
+  Hue bridge(pIp, pUsername, handler);
+  HueLight light = bridge.getLight(lightId);
+  light.setColorRGB(255, 255, 255);
+  usleep(duration);
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_roundStart
-  (JNIEnv * env, jobject thisObject, jstring colorSequence, jobject duration)
+  (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId, jintArray colorSequence, jlong duration)
 {
-
+  const char* pIp = env->GetStringUTFChars(ip, NULL);
+  const char* pUsername = env->GetStringUTFChars(username, NULL);
+  auto handler = std::make_shared<LinHttpHandler>();
+  Hue bridge(pIp, pUsername, handler);
+  HueLight light = bridge.getLight(lightId);
+  light.setColorRGB(colors[0].r, colors[0].g, colors[0].b);
+  usleep(duration);
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gamePause
-  (JNIEnv * env, jobject thisObject)
+  (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId)
 {
-
+  const char* pIp = env->GetStringUTFChars(ip, NULL);
+  const char* pUsername = env->GetStringUTFChars(username, NULL);
+  auto handler = std::make_shared<LinHttpHandler>();
+  Hue bridge(pIp, pUsername, handler);
+  HueLight light = bridge.getLight(lightId);
+  light.Off();
 }
 
 JNIEXPORT void JNICALL Java_de_trzpiot_bulbbattle_service_NativeService_gameStart
-  (JNIEnv * env, jobject thisObject)
+  (JNIEnv * env, jobject thisObject, jstring ip, jstring username, jlong lightId, jlong duration)
 {
-  
+  const char* pIp = env->GetStringUTFChars(ip, NULL);
+  const char* pUsername = env->GetStringUTFChars(username, NULL);  
+  auto handler = std::make_shared<LinHttpHandler>();
+  Hue bridge(pIp, pUsername, handler);
+  HueLight light = bridge.getLight(lightId);
+  light.On();
+  light.setColorRGB(255, 255, 255);
+  usleep(duration);
 }
