@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService {
-    private final Environment environment;
     private final LightService lightService;
     private final String BRIDGE_IP;
     private final String BRIDGE_USERNAME;
@@ -23,7 +22,6 @@ public class GameService {
 
     @Autowired
     public GameService(Environment environment, LightService lightService) {
-        this.environment = environment;
         this.lightService = lightService;
 
         BRIDGE_IP = environment.getProperty("bridge.ip");
@@ -62,6 +60,7 @@ public class GameService {
                 changeColor(colorCode);
                 TimeUnit.MILLISECONDS.sleep(getRoundDuration(currentRound));
                 lightOff();
+                TimeUnit.MILLISECONDS.sleep(getRoundDuration(currentRound));
             }
 
             endRound();
